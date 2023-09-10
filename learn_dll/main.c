@@ -3,5 +3,5 @@
 int main()
 {
    prt("hell");
-   prt("hwowowowowowo");
+   prt("NEW STRANGER :>");
 }
