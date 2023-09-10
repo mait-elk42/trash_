@@ -1,6 +1,7 @@
 libn = libprt.so
 srcs = src/prt.c
 sro = $(srcs:.c=.o)
+
 all : link 
 
 link :	$(sro) definsys
@@ -8,7 +9,7 @@ link :	$(sro) definsys
 	rm $(sro)
 
 definsys:
-	export LD_LIBRARY_PATH=$PWD:LD_LIBRARY_PATH
+	@export LD_LIBRARY_PATH=$(PWD):LD_LIBRARY_PATH
 
 $(sro) :
 	gcc -fPIC -c $(srcs)
