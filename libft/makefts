@@ -1,0 +1,16 @@
+echo "enter FT Name :";
+read name;
+echo "enter FT Return Type :";
+read ret;
+echo "Wait";
+cp ../templates/template.c ft_${name}.c;
+echo "----------";
+sleep 0.1;
+sed -i "s/%FUNC_NAME%/${name}/g" ft_${name}.c;
+sed -i "s/%FUNC_RET%/${ret}/g" ft_${name}.c;
+echo "...------";
+sleep 0.2;
+echo ".......--";
+sleep 0.2;
+code ft_${name}.c
+echo "Successfully Alm3gaz XD";
