@@ -2,5 +2,6 @@
 
 int main()
 {
-    prt("hell");
+   prt("hell");
+   prt("hwowowowowowo");
 }

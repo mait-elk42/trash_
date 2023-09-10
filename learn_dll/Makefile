@@ -8,7 +8,7 @@ link :	$(sro) definsys
 	rm $(sro)
 
 definsys:
-	export LB_LIBRARY_PATH=$(PWD):LB_LIBRARY_PATH
+	export LD_LIBRARY_PATH=$PWD:LD_LIBRARY_PATH
 
 $(sro) :
 	gcc -fPIC -c $(srcs)
