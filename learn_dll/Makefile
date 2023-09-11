@@ -4,13 +4,9 @@ sro = $(srcs:.c=.o)
 
 all : link 
 
-link :	$(sro) definsys
+link :	$(sro)
 	gcc -shared $(sro) -o $(libn)
 	rm $(sro)
-
-definsys:
-	@export LD_LIBRARY_PATH=$(PWD):LD_LIBRARY_PATH
-
 $(sro) :
 	gcc -fPIC -c $(srcs)
 	mv *.o src/
