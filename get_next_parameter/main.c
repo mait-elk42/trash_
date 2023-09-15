@@ -5,7 +5,7 @@
 
 void prtargs(char *format ,...)
 {
-    my_startarg(&format);
+    my_startarg((void **)&format);
     while(*format)
     {
         if(*format == '%')
@@ -13,7 +13,11 @@ void prtargs(char *format ,...)
             format++;
             if(*format == 's')
             {
-                printf("%s",get_next_parameter(charptr));
+                printf("%s",(char *)get_next_parameter(charptr));
+            }else
+            if(*format == 'd')
+            {
+                printf("%d",get_next_parameter(integer));
             }
         }
         else
@@ -43,6 +47,6 @@ void prtargs(char *format ,...)
 // }
 int main()
 {
-    prtargs("hello {%s %s %s %s}","ahelloww","bhelloww22","chelloww33","dhelloww5555");
+    prtargs("hello {%s %s %s %s %d}","ahelloww","bhelloww22","chelloww33","dhelloww5555",2313);
     //prtnextpar("asdab",111,8222,9333);
 }

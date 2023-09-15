@@ -14,12 +14,12 @@ int getcountofpars()
     /////trash hhshshhshhshsh
     (char **)argsoffset;
     int c = 0;
-    printf("%s\n",argsoffset[c++]);
-    printf("%s\n",argsoffset[c++]);
-    printf("%s\n",argsoffset[c++]);
-    printf("%s\n",argsoffset[c++]);
-    printf("%s\n",argsoffset[c++]);
-    printf("%s\n",argsoffset[c++]);
+    //printf("%s\n",argsoffset[c++]);
+    //printf("%s\n",argsoffset[c++]);
+    //printf("%s\n",argsoffset[c++]);
+    //printf("%s\n",argsoffset[c++]);
+    //printf("%s\n",argsoffset[c++]);
+    //printf("%s\n",argsoffset[c++]);
     // while(*argsoffset)
     // {
     //     printf("%s\n",argsoffset[c]);
