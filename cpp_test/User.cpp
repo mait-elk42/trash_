@@ -3,8 +3,8 @@
 
 using namespace std;
 typedef enum _gender{
-    male,
-    female
+    male = 'M',
+    female = 'F'
 } gender_type ;
 
 int len(char *s)
@@ -59,35 +59,57 @@ public:
         return s;
     }
 };
+
 class InfoTextGetter{
-    char *getstring(char *key,char *str)
+public:
+    static char *getstring(char *key,char *str)
     {
+        char *res;
         int lenofvalue = 0;
         int i = 0;
         int j = 0;
         int ok = 0;
-        while(str[i])
+        while(*str)
             {
                 ok = 0;
                 j = 0;
-                if(str[i] == key[0])
+                if(str[0] == key[0] && !*(str-1) || *(str-1) == ',')
                 {
                     while(key[j])
                     {
-                        if(key[j] == str[i+j])
+                        if(key[j] == str[j])
                             ok++;
                         j++;
                     }
-                    if(ok == j)
-                        while(str[i+j+2] != ',' &&  str[i+j+2])
+                    str += j;
+                    i = 0;
+                    if(ok == j && *(str) == '~' && *(str+1) == '>')
+                    {
+                        str += 2;
+                        while(str[i] != ',' &&  str[i])
                         {
                             lenofvalue++;
+                            i++;
                         }
-                    break;
+                        break;
+                    }
                 }
+                str++;
+            }
+        i = 0;
+        if(lenofvalue > 0)
+        {
+            res = (char*)malloc(lenofvalue + 1);
+            if(!res)
+                return 0;
+            while(i < lenofvalue)
+            {
+                res[i] = str[i];
                 i++;
             }
-        cout << lenofvalue ;
+            res[i] = '\0';
+        }
+    return res;
     }
 };
 class User {
@@ -128,6 +150,7 @@ public:
         char *_name = (char *)"name~>";
         char *_email = (char *)"email~>";
         char *_passwd = (char *)"passwd~>";
+        
 
         int i = 0;
         char *info;
