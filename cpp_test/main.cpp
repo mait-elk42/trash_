@@ -1,6 +1,7 @@
 #include "User.cpp"
 char *getstring(char *key,char *str)
     {
+        char *res;
         int lenofvalue = 0;
         int i = 0;
         int j = 0;
@@ -9,7 +10,7 @@ char *getstring(char *key,char *str)
             {
                 ok = 0;
                 j = 0;
-                if(str[0] == key[0])
+                if(str[0] == key[0] && !*(str-1) || *(str-1) == ',')
                 {
                     while(key[j])
                     {
@@ -18,21 +19,34 @@ char *getstring(char *key,char *str)
                         j++;
                     }
                     str += j;
+                    i = 0;
                     if(ok == j && *(str) == '~' && *(str+1) == '>')
                     {
                         str += 2;
-                        while(*str != ',' &&  *str)
+                        while(str[i] != ',' &&  str[i])
                         {
-                            cout << *str;
                             lenofvalue++;
-                            str++;
+                            i++;
                         }
                         break;
                     }
                 }
                 str++;
             }
-        cout <<endl << lenofvalue ;
+        i = 0;
+        if(lenofvalue > 0)
+        {
+            res = (char*)malloc(lenofvalue + 1);
+            if(!res)
+                return 0;
+            while(i < lenofvalue)
+            {
+                res[i] = str[i];
+                i++;
+            }
+            res[i] = '\0';
+        }
+    return res;
     }
 int main()
 {
@@ -41,6 +55,7 @@ int main()
     char *name = (char *) user->get_name((char *)"passwd");
     char *infotext =(char *) user->get_user_info((char *)"passwd");
     cout << infotext << endl;
-    getstring("e",infotext);
+    char *emailfromtext = getstring("passwd",infotext);
+    cout << "?" << emailfromtext << "?";
     return 0;
 }
