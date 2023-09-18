@@ -1,16 +1,28 @@
-#include<iostream>
 #include<unistd.h>
-using namespace std;
 
-void putchar(void *c)
-{
-    write(1,(char*)c,1);
-}
-void putstr(const char *s)
-{
-    while(*s)
-        putchar(*s++);
-}
+char ___colors_list[10][8]{
+    "\033[1;30m",
+    "\033[1;31m",
+    "\033[1;32m",
+    "\033[1;33m",
+    "\033[1;34m",
+    "\033[1;35m",
+    "\033[1;36m",
+    "\033[1;90m",
+    "\033[1;97m"
+};
+enum colors_list {
+    Black,
+    Red,
+    Green,
+    Yellow,
+    Blue,
+    Magenta,
+    Cyan,
+    Gray,
+    White
+};
+namespace PRINTER{
 int str_lenght(char *s)
 {
     int i = 0;
@@ -18,7 +30,16 @@ int str_lenght(char *s)
         i++;
     return i;
 }
-void putnbr(long nb)//178
+void putchar(char c)
+{
+    write(1,&c,1);
+}
+void putstr(const char *s)
+{
+    while(*s)
+        putchar(*s++);
+}
+void putnbr(long nb)
 {
     int i[2] = {0,0};
     char res[100];
@@ -26,7 +47,7 @@ void putnbr(long nb)//178
         if(nb == 0)
             putchar('0');
         else
-            putchar('-'+ ((nb*=-1)*0));
+            {putchar('-'); nb*=-1;}
     while(nb > 0)
         if(nb > 9)
             res[i[0]++] = (nb % 10) + 48 + ((nb /= 10) == 0);
@@ -44,8 +65,28 @@ void putnbr(long nb)//178
     }
     putstr(res);
 }
-
-int main()
-{
-    putnbr(-1273472734283483);
+// void putstr_color(const char *s,colors_list color)
+// {
+//     putstr("\033[");
+//     putnbr(color);
+//     putchar('m');
+//     putstr(s);
+//     putstr("\033[");
+//     putchar('0');
+//     putchar('m');
+// }
+// void putchar_color(const char c,colors_list color)
+// {
+//     putstr("\033[");
+//     putnbr(color);
+//     putchar('m');
+//     putchar(c);
+//     putstr("\033[");
+//     putchar('0');
+//     putchar('m');
+// }
+void getinput(int *input)
+    {
+        read(0,input,1);
+    }
 }
