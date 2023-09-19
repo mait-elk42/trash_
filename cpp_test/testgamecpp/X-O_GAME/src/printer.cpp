@@ -87,6 +87,8 @@ void putnbr(long nb)
 // }
 void getinput(int *input)
     {
-        read(0,input,1);
+        char userinput[100];
+        read(0,userinput,100);
+        *input = userinput[0];
     }
 }

@@ -2,11 +2,13 @@
 #include<stdlib.h>
 using namespace PRINTER;
 #define clr system("clear");
-
+#define true 1
+#define false 0
 static int input;
 
 class player{
 public:
+    int id;
     char * player_name;
     char player_symbole;
     colors_list player_symbole_color;
@@ -27,6 +29,12 @@ private:
     char *table = (char *) malloc(9);
     player *player1;
     player *player2;
+
+    void (*OnPlayerWin)(player *winner);
+    int stop_default_opw_func = 1;
+
+    void (*OnPlayersDraw)();
+    int stop_default_opd_func = 1;
 public:
     nsx_GAME_ROUND(player *plr1,player *plr2)
     {
@@ -37,6 +45,22 @@ public:
         while(i < 9)
             table[i++] = i + 49;
     }
+    void nsX_Listen_OnPlayerWinner(void (*func)(player *winner),int stop_default_func)
+    {
+        OnPlayerWin = func;
+        this->stop_default_opw_func = stop_default_func;
+    }
+    void nsX_Listen_OnPlayersDraw(void (*func)(),int stop_default_func)
+    {
+        OnPlayersDraw = func;
+        this->stop_default_opd_func = stop_default_func;
+    }
+private:
+    void _change_player()
+    {
+        its_me_player = (its_me_player == 2) ? 1 : 2;
+    }
+public:
     int check_table_is_avaiable()
     {
         i = 0;
@@ -50,28 +74,62 @@ public:
     int check_if_this_plr_winner(char *table,char plrc)
     {
     if (
-        (table[0] == plrc && table[4] == plrc && table[8] == plrc) || // Diagonal from top-left to bottom-right
-        (table[2] == plrc && table[4] == plrc && table[6] == plrc) || // Diagonal from top-right to bottom-left
-        (table[0] == plrc && table[1] == plrc && table[2] == plrc) || // Top row
-        (table[3] == plrc && table[4] == plrc && table[5] == plrc) || // Middle row
-        (table[6] == plrc && table[7] == plrc && table[8] == plrc) || // Bottom row
-        (table[0] == plrc && table[3] == plrc && table[6] == plrc) || // Left column
-        (table[1] == plrc && table[4] == plrc && table[7] == plrc) || // Middle column
-        (table[2] == plrc && table[5] == plrc && table[8] == plrc)    // Right column
+        (table[0] == plrc && table[4] == plrc && table[8] == plrc) ||
+        (table[2] == plrc && table[4] == plrc && table[6] == plrc) || 
+        (table[0] == plrc && table[1] == plrc && table[2] == plrc) || 
+        (table[3] == plrc && table[4] == plrc && table[5] == plrc) || 
+        (table[6] == plrc && table[7] == plrc && table[8] == plrc) || 
+        (table[0] == plrc && table[3] == plrc && table[6] == plrc) || 
+        (table[1] == plrc && table[4] == plrc && table[7] == plrc) || 
+        (table[2] == plrc && table[5] == plrc && table[8] == plrc)    
         )
             return 1;
         return 0;
     }
+    void print_table()
+    {
+        int i = 0;
+        putstr("\033[1;0m");
+        putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
+        putstr("-------------\n");
+        while(i < 9)
+            {
+                putstr("| ");
+                if(table[i] == player1->player_symbole || table[i] == player2->player_symbole)
+                    putstr(___colors_list[(table[i] == player1->player_symbole) ? player1->player_symbole_color : player2->player_symbole_color]);
+                putchar(table[i]);
+                putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
+                putchar(' ');
+                if(i == 2 || i == 5 || i == 8)
+                    if(i == 2 || i == 5)
+                        putstr("|\n----+---+----\n");
+                    if(i == 8)
+                        putstr("|\n-------------\n");
+                i++;
+            }
+        putstr("\033[1;0m");
+    }
+    player  *get_player(int num)
+    {
+        if(num == 1) 
+            return player1;
+        else
+        if(num == 2)
+            return player2;
+        else
+            return 0;
+    }
     void nsX_StartGameLoop()
     {
-        clr;
         playing = 1;
         while(playing)
         {
+            clr;
             print_table();
             putstr((its_me_player == 1) ? "\nPLAYER 1 PLAYING..." : "\nPLAYER 2 PLAYING...");
             putstr("\nENTER [1-9] NUM XD:\n > ");
             getinput(&input);
+            int played = 0;
             if(input-48 == 0)
             {
                     putstr("ARE YOU SURE WANT EXIT! [Y-N]\n > ");
@@ -96,15 +154,8 @@ public:
             {
                     if(table[input-48-1] >= '0' && table[input-48-1] <= '9')
                     {
-                        if(its_me_player == 1)
-                        {
-                            table[input-49] = player1->player_symbole;
-                            its_me_player = 2;
-                        }else if(its_me_player == 2)
-                        {
-                            table[input-49] = player2->player_symbole;
-                            its_me_player = 1;
-                        }
+                        played = 1;
+                        table[input-49] = get_player(its_me_player)->player_symbole;
                     }
                     else
                     {
@@ -112,49 +163,39 @@ public:
                     }
             }
             clr;
-            if(check_if_this_plr_winner(table,get_player((its_me_player == 2) ? 1 : 2)->player_symbole))
+            if(check_if_this_plr_winner(table,get_player(its_me_player)->player_symbole))
             {
-                //putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
-                putstr((its_me_player == 2) ? "PLAYER 1 WINNER!!" : "PLAYER 2 WINNER!!");// reversed to fix check winner XD
-                //putstr("\033[1;0m");
+                if(!stop_default_opw_func)
+                    {
+                        putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
+                        putstr((its_me_player == 2) ? "PLAYER 2 WINNER!!" : "PLAYER 1 WINNER!!");
+                        putstr("\033[1;0m\n");
+                    }
+                if(OnPlayerWin)
+                    OnPlayerWin(get_player(its_me_player));
+                
                 playing = 0;
+                return;
             }
-        }
-    }
-    void print_table()
-    {
-    int i = 0;
-    while(i < 9)
-        {
-            if(table[i] == player1->player_symbole)
-                {putstr(___colors_list[player1->player_symbole_color]);
-                putchar(table[i]);
-                putstr("\033[1;0m");}
-            else if(table[i] == player2->player_symbole)
-                {putstr(___colors_list[player2->player_symbole_color]);
-                putchar(table[i]);
-                putstr("\033[1;0m");}
-            else
-                putchar(table[i]);
-            putchar(' ');
-            if(i == 2 || i == 5 || i == 8)
-                putchar('\n');
-            i++;
+            if(!check_table_is_avaiable())
+            {
+                playing = 0;
+                if(!stop_default_opw_func)
+                    {
+                        putstr(___colors_list[Red]);
+                        putstr("\n:( PLAYERS ARE DRAW!!\n IT'S WAS BOOOOOOOOOOOOORING");
+                        putstr("\033[1;0m\n");
+                    }
+                OnPlayersDraw();
+                return;
+            }
+            if(played)
+                _change_player();
         }
     }
     char *getTable()
     {
         return table;
-    }
-    player  *get_player(int num)
-    {
-        if(num == 1) 
-            return player1;
-        else
-        if(num == 2)
-            return player2;
-        else
-            return 0;
     }
     void nsX_endGame()
     {
@@ -164,6 +205,8 @@ public:
 nsx_GAME_ROUND *nsX_Init(player *player1,player *player2)
 {
     int i = 0;
+    player1->id = 1;
+    player2->id = 2;
     nsx_GAME_ROUND *round = new nsx_GAME_ROUND(player1,player2);
     if(round == 0)
         return 0;
