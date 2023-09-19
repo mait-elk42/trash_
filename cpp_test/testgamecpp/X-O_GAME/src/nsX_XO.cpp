@@ -1,20 +1,24 @@
-#include "printer.cpp"
+#include "nsX_String.cpp"
 #include<stdlib.h>
 using namespace PRINTER;
 #define clr system("clear");
 #define true 1
 #define false 0
+#define clearcolor putstr("\033[1;0m");
 static int input;
 
 class player{
+private:
+    int is_bot = 0;
 public:
     int id;
     char * player_name;
     char player_symbole;
     colors_list player_symbole_color;
     int points = 0;
-    player(char *player_name, char player_symbole,colors_list player_symbole_color)
+    player(char *player_name, char player_symbole,colors_list player_symbole_color,int is_bot)
     {
+        this->is_bot = is_bot;
         this->player_name = player_name;
         this->player_symbole = player_symbole;
         this->player_symbole_color = player_symbole_color;
@@ -89,7 +93,7 @@ public:
     void print_table()
     {
         int i = 0;
-        putstr("\033[1;0m");
+        clearcolor;
         putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
         putstr("-------------\n");
         while(i < 9)
@@ -107,7 +111,7 @@ public:
                         putstr("|\n-------------\n");
                 i++;
             }
-        putstr("\033[1;0m");
+        clearcolor;
     }
     player  *get_player(int num)
     {
@@ -126,8 +130,17 @@ public:
         {
             clr;
             print_table();
-            putstr((its_me_player == 1) ? "\nPLAYER 1 PLAYING..." : "\nPLAYER 2 PLAYING...");
-            putstr("\nENTER [1-9] NUM XD:\n > ");
+            putstr("\nPLAYER : [ ");
+            putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
+            putchar(its_me_player+48);
+            clearcolor;
+            putstr(" ] : [ ");
+            putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
+            putstr(get_player(its_me_player)->player_name);
+            clearcolor;
+            putstr(" ]");
+            putstr("\n IS PLAYING...");
+            putstr("\nENTER [1-9] TO SELECT:\tOR\tENTER [0] TO EXIT >\n>");
             getinput(&input);
             int played = 0;
             if(input-48 == 0)
@@ -165,6 +178,7 @@ public:
             clr;
             if(check_if_this_plr_winner(table,get_player(its_me_player)->player_symbole))
             {
+                print_table();
                 if(!stop_default_opw_func)
                     {
                         putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
@@ -179,6 +193,7 @@ public:
             }
             if(!check_table_is_avaiable())
             {
+                print_table();
                 playing = 0;
                 if(!stop_default_opw_func)
                     {
