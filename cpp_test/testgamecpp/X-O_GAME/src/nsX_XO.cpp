@@ -1,5 +1,4 @@
 #include "nsX_String.cpp"
-#include<stdlib.h>
 using namespace PRINTER;
 #define clr system("clear");
 #define true 1
@@ -125,10 +124,11 @@ public:
     }
     void nsX_StartGameLoop()
     {
+        clr;
         playing = 1;
         while(playing)
         {
-            clr;
+            //clr;
             print_table();
             putstr("\nPLAYER : [ ");
             putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
@@ -163,6 +163,7 @@ public:
                     }
 
             }  
+            else
             if(input >= '0' && input <= '9')
             {
                     if(table[input-48-1] >= '0' && table[input-48-1] <= '9')
@@ -181,8 +182,18 @@ public:
                 print_table();
                 if(!stop_default_opw_func)
                     {
+                        putstr("\nPLAYER : [ ");
                         putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
-                        putstr((its_me_player == 2) ? "PLAYER 2 WINNER!!" : "PLAYER 1 WINNER!!");
+                        putchar(its_me_player+48);
+                        clearcolor;
+                        putstr(" ] : [ ");
+                        putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
+                        putstr(get_player(its_me_player)->player_name);
+                        clearcolor;
+                        putstr(" ] ");
+                        putstr(___colors_list[Green]);
+                        putstr("WINNER!!");
+                        clearcolor;
                         putstr("\033[1;0m\n");
                     }
                 if(OnPlayerWin)

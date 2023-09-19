@@ -1,4 +1,8 @@
 #include<unistd.h>
+#include<stdlib.h>
+#include <time.h>
+
+static int oldrandom = 0;
 
 char ___colors_list[10][8]{
     "\033[1;30m",
@@ -68,5 +72,13 @@ void getinput(int *input)
         char userinput[100];
         read(0,userinput,100);
         *input = userinput[0];
+    }
+int random_number(int max)
+    {
+        if(oldrandom == 0)
+                srand(time(0));
+        if(oldrandom == rand())
+            random_number(max);
+        return rand() % max + ((oldrandom = rand()) * 0);
     }
 }
