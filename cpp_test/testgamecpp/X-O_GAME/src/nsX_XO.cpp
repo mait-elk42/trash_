@@ -301,6 +301,7 @@ char im_close_to_win(player *me)
                 print_table();
                 if(!stop_default_opw_func)
                     {
+                        get_player(its_me_player)->points++;
                         putstr("\nPLAYER : [ ");
                         putstr(___colors_list[get_player(its_me_player)->player_symbole_color]);
                         putchar(its_me_player+48);

@@ -19,6 +19,7 @@ int main(int ac,char *av[])
     player *player1;
     player *player2;
     player *bot;
+    int rounds_count;
     player1 = new player((char *)"PLAYER_1",'X',Blue,false);
     player2 = new player((char *)"PLAYER_2",'O',Red,false);
     //INITIALIZAION PLAYERS FROM ARGV :av[2 && 3]
@@ -28,15 +29,14 @@ int main(int ac,char *av[])
             player1 = new player((char *)av[1],'X',Blue,false);
         if(ac > 2)
             player2 = new player((char *)av[2],'O',Red,false);
+        if(ac > 3)
+            rounds_count = av[3][0]-48;
         
     }
     bot = new player((char *)"nsX_BOT",'@',Green,true);
     char _name[10];
     int inpuut;
-    putstr("WELCOME :) \n -ENTER [P] TO PLAY\n -ENTER [X] TO EXIT >\n> ");
-    getinput(&inpuut);
-    if(inpuut == 'P')
-    {
+    putstr("WELCOME :) \n");
         clr;
         PUTLOGO();
         putstr("-ENTER [P] TO ENTER PVP MODE \n -ENTER [C] TO ENTER PVC MODE >\n> ");
@@ -55,8 +55,4 @@ int main(int ac,char *av[])
         round->nsX_Listen_OnPlayersDraw(&OnPlayersDraw,true);
         round->nsX_StartGameLoop();
         round->nsX_endGame();
-    }
-    else
-    if(inpuut == 'X')
-        return 0;
 }
