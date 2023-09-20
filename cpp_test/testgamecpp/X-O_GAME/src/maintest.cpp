@@ -14,8 +14,8 @@ void OnPlayersDraw()
 }
 int main()
 {
-    player *player1 = new player("BOT_1",'&',Blue,true);
-    player *bot = new player("BOT_2",'@',Red,true);
+    player *player1 = new player((char *)"MOHAMEDD!",'&',Blue,false);
+    player *bot = new player((char *)"BOT_2",'@',Red,true);
     nsx_GAME_ROUND* round = nsX_Init(player1,bot);
     round->nsX_Listen_OnPlayerWinner(&OnPlayerWin,false);
     round->nsX_Listen_OnPlayersDraw(&OnPlayersDraw,true);

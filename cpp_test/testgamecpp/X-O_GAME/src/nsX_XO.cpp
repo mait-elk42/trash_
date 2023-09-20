@@ -125,97 +125,86 @@ int is_avaiable_place(char c)
     {
         return (c >= '1' && c <= '9');
     }
-int myenemy_very_close_to_win(player *enemy)
+char myenemy_very_close_to_win(player *enemy)
     {
         char plrc = enemy->player_symbole;
         if (table[0] == plrc && table[4] == plrc && is_avaiable_place(table[8]))
-            return is_avaiable_place(table[8]-'0');
-        else
+            return (table[8]);
         if(table[0] == plrc && is_avaiable_place(table[4]) && table[8] == plrc)
-            return is_avaiable_place(table[4]-'0');
-        else
+            return (table[4]);
         if(is_avaiable_place(table[0]) && table[4] == plrc && table[8] == plrc)
-            return is_avaiable_place(table[0]-'0');
+            return (table[0]);
 
         
 
 
         if (table[2] == plrc && table[4] == plrc && is_avaiable_place(table[6]))
-            return is_avaiable_place(table[6]-'0');
-        else
+            return (table[6]);
         if(table[2] == plrc && is_avaiable_place(table[4]) && table[6] == plrc)
-            return is_avaiable_place(table[4]-'0');
-        else
+            return (table[4]);
         if(is_avaiable_place(table[2]) && table[4] == plrc && table[6] == plrc)
-            return is_avaiable_place(table[2]-'0');
+            return (table[2]);
         
 
 
         if (table[0] == plrc && table[1] == plrc && is_avaiable_place(table[2]))
-            return is_avaiable_place(table[2]-'0');
-        else
+            return (table[2]);
         if(table[0] == plrc && is_avaiable_place(table[1]) && table[2] == plrc)
-            return is_avaiable_place(table[1]-'0');
-        else
+            return (table[1]);
         if(is_avaiable_place(table[0]) && table[1] == plrc && table[2] == plrc)
-            return is_avaiable_place(table[0]-'0');
+            return (table[0]);
         
 
 
         if (table[3] == plrc && table[4] == plrc && is_avaiable_place(table[5]))
-            return is_avaiable_place(table[5]-'0');
-        else
+            return (table[5]);
         if(table[3] == plrc && is_avaiable_place(table[4]) && table[5] == plrc)
-            return is_avaiable_place(table[4]-'0');
-        else
+            return (table[4]);
         if(is_avaiable_place(table[3]) && table[4] == plrc && table[5] == plrc)
-            return is_avaiable_place(table[3]-'0');
+            return (table[3]);
         
 
 
         if (table[6] == plrc && table[7] == plrc && is_avaiable_place(table[8]))
-            return is_avaiable_place(table[8]-'0');
-        else
+            return (table[8]);
         if(table[6] == plrc && is_avaiable_place(table[7]) && table[8] == plrc)
-            return is_avaiable_place(table[7]-'0');
-        else
+            return (table[7]);
         if(is_avaiable_place(table[6]) && table[7] == plrc && table[8] == plrc)
-            return is_avaiable_place(table[6]-'0');
+            return (table[6]);
         
 
 
         if (table[0] == plrc && table[3] == plrc && is_avaiable_place(table[6]))
-            return is_avaiable_place(table[0]-'0');
-        else
+            return (table[0]);
         if(table[0] == plrc && is_avaiable_place(table[3]) && table[6] == plrc)
-            return is_avaiable_place(table[3]-'0');
-        else
+            return (table[3]);
         if(is_avaiable_place(table[0]) && table[3] == plrc && table[6] == plrc)
-            return is_avaiable_place(table[6]-'0');
+            return (table[6]);
 
 
 
         if (table[1] == plrc && table[4] == plrc && is_avaiable_place(table[7]))
-            return is_avaiable_place(table[1]-'0');
-        else
+            return (table[1]);
         if(table[1] == plrc && is_avaiable_place(table[4]) && table[7] == plrc)
-            return is_avaiable_place(table[4]-'0');
-        else
+            return (table[4]);
         if(is_avaiable_place(table[1]) && table[4] == plrc && table[7] == plrc)
-            return is_avaiable_place(table[7]-'0');
+            return (table[7]);
 
 
 
         if (table[2] == plrc && table[5] == plrc && is_avaiable_place(table[8]))
-            return is_avaiable_place(table[8]-'0');
-        else
+            return (table[8]);
         if(table[2] == plrc && is_avaiable_place(table[5]) && table[8] == plrc)
-            return is_avaiable_place(table[5]-'0');
-        else
+            return (table[5]);
         if(is_avaiable_place(table[2]) && table[5] == plrc && table[8] == plrc)
-            return is_avaiable_place(table[2]-'0');
+            return (table[2]);
         return 0;
     }
+
+char im_close_to_win(player *me)
+{
+    return myenemy_very_close_to_win(me);
+}
     void nsX_StartGameLoop()
     {
         clr;
@@ -241,15 +230,26 @@ int myenemy_very_close_to_win(player *enemy)
             {
                 int rand;
                 played = 1;
-                char c = myenemy_very_close_to_win((its_me_player == 1) ? player2 : player1);
+                player *myenemy;
+                if(its_me_player == 1)
+                    {
+                        myenemy = get_player(2);
+                    }else{
+                        myenemy = get_player(1);
+                    }
+                char c = myenemy_very_close_to_win(myenemy);
+                char imclose = im_close_to_win(get_player(its_me_player));
+                if(imclose)
+                {
+                    input = imclose;
+                }
+                else
                 if(c)
                 {
-                    input = c; 
-                    putchar(input-48);
+                    input = c;
                 }
                 else
                 {
-                    
                     rand = random_number(10);
                     input = (rand == 0) ? 49 : rand+48;
                 }
@@ -279,7 +279,7 @@ int myenemy_very_close_to_win(player *enemy)
             else
             if(input >= '0' && input <= '9')
             {
-                    if(table[input-48-1] >= '0' && table[input-48-1] <= '9')
+                    if(is_avaiable_place(table[input-48-1]))
                     {
                         played = 1;
                         table[input-49] = get_player(its_me_player)->player_symbole;
