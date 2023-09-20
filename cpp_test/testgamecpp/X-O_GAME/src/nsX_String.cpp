@@ -26,7 +26,6 @@ enum colors_list {
     Gray,
     White
 };
-namespace PRINTER{
 int str_lenght(char *s)
 {
     int i = 0;
@@ -38,6 +37,13 @@ int putchar(char c)
 {
     write(1,&c,1);
     return 0;
+}
+int strcompare(char *s1,char *s2)
+{
+    while(*s1 || *s2)
+        if(*s1 != *s2)
+            return 0 + ((s1++ == s2++) *0);
+    return 1;
 }
 void putstr(const char *s)
 {
@@ -81,4 +87,3 @@ int random_number(int max)
             random_number(max);
         return rand() % max + ((oldrandom = rand()) * 0);
     }
-}

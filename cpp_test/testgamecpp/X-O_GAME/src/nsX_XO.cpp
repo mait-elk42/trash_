@@ -1,5 +1,4 @@
 #include "nsX_String.cpp"
-using namespace PRINTER;
 #define clr system("clear");
 #define true 1
 #define false 0
@@ -22,6 +21,12 @@ public:
         this->player_symbole_color = player_symbole_color;
     }
 };
+void PUTLOGO()
+{
+    putstr(___colors_list[Blue]);
+    putstr("\n███╗░░██╗░██████╗██╗░░██╗  ████████╗████████╗████████╗\n████╗░██║██╔════╝╚██╗██╔╝  ╚══██╔══╝╚══██╔══╝╚══██╔══╝\n██╔██╗██║╚█████╗░░╚███╔╝░  ░░░██║░░░░░░██║░░░░░░██║░░░\n██║╚████║░╚═══██╗░██╔██╗░  ░░░██║░░░░░░██║░░░░░░██║░░░\n██║░╚███║██████╔╝██╔╝╚██╗  ░░░██║░░░░░░██║░░░░░░██║░░░\n ═╝░░╚══╝╚═════╝░╚═╝░░╚═╝  ░░░╚═╝░░░░░░╚═╝░░░░░░╚═╝░░░\n\n");
+    clearcolor;
+}
 class nsx_GAME_ROUND {
 private:
     int i = 0;
@@ -224,7 +229,7 @@ char im_close_to_win(player *me)
             putstr(get_player(its_me_player)->player_name);
             clearcolor;
             putstr(" ]");
-            putstr("\n IS PLAYING...");
+            putstr(" IS PLAYING...");
             putstr("\nENTER [1-9] TO SELECT:\tOR\tENTER [0] TO EXIT >\n>");
             if(get_player(its_me_player)->is_bot)
             {
