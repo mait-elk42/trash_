@@ -7,9 +7,8 @@ using namespace PRINTER;
 static int input;
 
 class player{
-private:
-    int is_bot = 0;
 public:
+    int is_bot;
     int id;
     char * player_name;
     char player_symbole;
@@ -122,12 +121,109 @@ public:
         else
             return 0;
     }
+int is_avaiable_place(char c)
+    {
+        return (c >= '1' && c <= '9');
+    }
+int myenemy_very_close_to_win(player *enemy)
+    {
+        char plrc = enemy->player_symbole;
+        if (table[0] == plrc && table[4] == plrc && is_avaiable_place(table[8]))
+            return is_avaiable_place(table[8]-'0');
+        else
+        if(table[0] == plrc && is_avaiable_place(table[4]) && table[8] == plrc)
+            return is_avaiable_place(table[4]-'0');
+        else
+        if(is_avaiable_place(table[0]) && table[4] == plrc && table[8] == plrc)
+            return is_avaiable_place(table[0]-'0');
+
+        
+
+
+        if (table[2] == plrc && table[4] == plrc && is_avaiable_place(table[6]))
+            return is_avaiable_place(table[6]-'0');
+        else
+        if(table[2] == plrc && is_avaiable_place(table[4]) && table[6] == plrc)
+            return is_avaiable_place(table[4]-'0');
+        else
+        if(is_avaiable_place(table[2]) && table[4] == plrc && table[6] == plrc)
+            return is_avaiable_place(table[2]-'0');
+        
+
+
+        if (table[0] == plrc && table[1] == plrc && is_avaiable_place(table[2]))
+            return is_avaiable_place(table[2]-'0');
+        else
+        if(table[0] == plrc && is_avaiable_place(table[1]) && table[2] == plrc)
+            return is_avaiable_place(table[1]-'0');
+        else
+        if(is_avaiable_place(table[0]) && table[1] == plrc && table[2] == plrc)
+            return is_avaiable_place(table[0]-'0');
+        
+
+
+        if (table[3] == plrc && table[4] == plrc && is_avaiable_place(table[5]))
+            return is_avaiable_place(table[5]-'0');
+        else
+        if(table[3] == plrc && is_avaiable_place(table[4]) && table[5] == plrc)
+            return is_avaiable_place(table[4]-'0');
+        else
+        if(is_avaiable_place(table[3]) && table[4] == plrc && table[5] == plrc)
+            return is_avaiable_place(table[3]-'0');
+        
+
+
+        if (table[6] == plrc && table[7] == plrc && is_avaiable_place(table[8]))
+            return is_avaiable_place(table[8]-'0');
+        else
+        if(table[6] == plrc && is_avaiable_place(table[7]) && table[8] == plrc)
+            return is_avaiable_place(table[7]-'0');
+        else
+        if(is_avaiable_place(table[6]) && table[7] == plrc && table[8] == plrc)
+            return is_avaiable_place(table[6]-'0');
+        
+
+
+        if (table[0] == plrc && table[3] == plrc && is_avaiable_place(table[6]))
+            return is_avaiable_place(table[0]-'0');
+        else
+        if(table[0] == plrc && is_avaiable_place(table[3]) && table[6] == plrc)
+            return is_avaiable_place(table[3]-'0');
+        else
+        if(is_avaiable_place(table[0]) && table[3] == plrc && table[6] == plrc)
+            return is_avaiable_place(table[6]-'0');
+
+
+
+        if (table[1] == plrc && table[4] == plrc && is_avaiable_place(table[7]))
+            return is_avaiable_place(table[1]-'0');
+        else
+        if(table[1] == plrc && is_avaiable_place(table[4]) && table[7] == plrc)
+            return is_avaiable_place(table[4]-'0');
+        else
+        if(is_avaiable_place(table[1]) && table[4] == plrc && table[7] == plrc)
+            return is_avaiable_place(table[7]-'0');
+
+
+
+        if (table[2] == plrc && table[5] == plrc && is_avaiable_place(table[8]))
+            return is_avaiable_place(table[8]-'0');
+        else
+        if(table[2] == plrc && is_avaiable_place(table[5]) && table[8] == plrc)
+            return is_avaiable_place(table[5]-'0');
+        else
+        if(is_avaiable_place(table[2]) && table[5] == plrc && table[8] == plrc)
+            return is_avaiable_place(table[2]-'0');
+        return 0;
+    }
     void nsX_StartGameLoop()
     {
         clr;
         playing = 1;
+        int played;
         while(playing)
         {
+            played = 0;
             //clr;
             print_table();
             putstr("\nPLAYER : [ ");
@@ -141,8 +237,25 @@ public:
             putstr(" ]");
             putstr("\n IS PLAYING...");
             putstr("\nENTER [1-9] TO SELECT:\tOR\tENTER [0] TO EXIT >\n>");
-            getinput(&input);
-            int played = 0;
+            if(get_player(its_me_player)->is_bot)
+            {
+                int rand;
+                played = 1;
+                char c = myenemy_very_close_to_win((its_me_player == 1) ? player2 : player1);
+                if(c)
+                {
+                    input = c; 
+                    putchar(input-48);
+                }
+                else
+                {
+                    
+                    rand = random_number(10);
+                    input = (rand == 0) ? 49 : rand+48;
+                }
+            }
+            else
+                getinput(&input);
             if(input-48 == 0)
             {
                     putstr("ARE YOU SURE WANT EXIT! [Y-N]\n > ");
@@ -173,6 +286,7 @@ public:
                     }
                     else
                     {
+                        played = 0;
                         //the place already used :> 
                     }
             }
