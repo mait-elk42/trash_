@@ -73,13 +73,11 @@ public:
         }
         return 0;
     }
-    int PutValueInKey(char *key,char *value,int index)
+    int PutValueInKey(char *key,char *value)
     {
         int i = 0;
         item *currite = first;
-        if(index > ItemsCount || index < 0)
-            return 0;
-        while(i++ < index)
+        while(i++ < ItemsCount)
             currite = currite->next;
         if(currite)
             currite-> value = value;

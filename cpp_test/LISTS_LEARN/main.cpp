@@ -12,7 +12,9 @@ int main()
     list->nsX_AddNewItem("key5","value5");
     list->nsX_AddNewItem("key6","value6");
 
-    list->PutValueInKey("keys1","valyoo",2);
+    list->PutValueInKey("keys1","valyoo");
+    
+    //list->PutValueInKey("keys1");
     // item *i2;
     // i2->key = "key2";
     // i2->value = "value2";
