@@ -9,7 +9,7 @@ int main()
     while (window.isOpen())
     {
         sf::Event event;
-        while (window.pollEvent(event))
+        while (window.pollEvent(event))//on click X on right up of the windoooowww
         {
             if (event.type == sf::Event::Closed)
                 window.close();
@@ -17,10 +17,6 @@ int main()
         window.clear();
         window.draw(shape);
         window.display();
-
-        std::ostringstream oss;
-        sf::Text text(h,sf::Font::isSmooth,12);
-        window.draw(text);
     }
 
     return 0;
