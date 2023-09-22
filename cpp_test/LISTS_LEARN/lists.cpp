@@ -77,7 +77,7 @@ public:
     {
         int i = 0;
         item *currite = first;
-        while(i++ < ItemsCount)
+        while(!compare_strings(key,currite->key))
             currite = currite->next;
         if(currite)
             currite-> value = value;
