@@ -18,8 +18,8 @@ int main()
     // item *i2;
     // i2->key = "key2";
     // i2->value = "value2";
-
+    list->RemoveValueKey("key5");
     // list->AddNewItem(i2);
     //printf("%s",list->GetValueInIndex(6));
-    printf("%s",list->nsX_GetValueKey("keys1"));
+    printf("%s",list->nsX_GetValueInIndex(5));
 }

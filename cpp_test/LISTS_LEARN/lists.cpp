@@ -49,7 +49,7 @@ public:
     {
         return ItemsCount;
     }
-    char* nsX_GetValueInIndex(int index)
+    item* _GetItemInIndex(int index)
     {
         int i = 0;
         item *currite = first;
@@ -58,18 +58,47 @@ public:
         while(i++ < index)
             currite = currite->next;
         if(currite)
+            return currite;
+        return 0;
+    }
+    item* _GetItemInKey(char* key)
+    {
+        item *currite = first;
+         if(compare_strings(currite->key, key))
+                return currite;
+        while(currite = currite->next)
+            if(compare_strings(currite->key, key))
+                return currite;
+        return 0;
+    }
+    char* nsX_GetValueInIndex(int index)
+    {
+        item *currite = _GetItemInIndex(index);
+        if(currite)
             return currite->value;
         return 0;
     }
     char* nsX_GetValueKey(char *key)
     {
-        int found = 0;
-        item *currite = first;
-        while(currite)
+        item *currite = _GetItemInKey(key);
+        if(currite)
+            return currite->value;
+        return 0;
+    }
+    int RemoveValueKey(char *key)
+    {
+        item * item_wanttoremove = first;
+        if(!item_wanttoremove)
+            return 0;
+        while(item_wanttoremove)
         {
-            if(compare_strings(currite->key,key))
-                return currite->value;
-            currite = currite->next;
+            if(compare_strings(item_wanttoremove->next->key,key))
+            {
+                item_wanttoremove->next = item_wanttoremove->next->next;
+                return 1;
+            }
+            else
+                item_wanttoremove = item_wanttoremove->next;
         }
         return 0;
     }
