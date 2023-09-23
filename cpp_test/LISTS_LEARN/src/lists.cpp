@@ -17,23 +17,21 @@ int compare_strings(char *s1,char *s2)
             *(s1++)+*(s2++);
     return 1;
 }
-class nsX_LinkedList{
+class nsX_LinkedList {
 private:
     item *first;
     item *current;
     int ItemsCount = 0;
 public:
+    nsX_LinkedList()
+    {
+        first = new item();
+        current = first;
+    } 
     int _AddNewItem(item* _item)
     {
         if(!_item->key || !_item->value)
             return 0;
-        if(!first)
-        {
-            first = _item;
-            current = first;
-            ItemsCount++;
-            return 1;
-        }
         current->next = _item;
         current = current->next;
         ItemsCount++;
@@ -51,11 +49,10 @@ public:
     }
     item* _GetItemInIndex(int index)
     {
-        int i = 0;
-        item *currite = first;
+        item *currite = first->next;
         if(index > ItemsCount || index < 0)
             return 0;
-        while(i++ < index)
+        while(index--)
             currite = currite->next;
         if(currite)
             return currite;
@@ -64,8 +61,6 @@ public:
     item* _GetItemInKey(char* key)
     {
         item *currite = first;
-         if(compare_strings(currite->key, key))
-                return currite;
         while(currite = currite->next)
             if(compare_strings(currite->key, key))
                 return currite;
@@ -85,16 +80,18 @@ public:
             return currite->value;
         return 0;
     }
-    int RemoveValueKey(char *key)
+    int Remove(char *key)
     {
         item * item_wanttoremove = first;
         if(!item_wanttoremove)
             return 0;
         while(item_wanttoremove)
         {
-            if(compare_strings(item_wanttoremove->next->key,key))
+            if(item_wanttoremove->next && compare_strings(item_wanttoremove->next->key,key))
             {
+                //delete item_wanttoremove->next;
                 item_wanttoremove->next = item_wanttoremove->next->next;
+                ItemsCount--;
                 return 1;
             }
             else
@@ -102,14 +99,36 @@ public:
         }
         return 0;
     }
+    int Remove(int index)
+    {
+        item * item_wanttoremove = first;
+        if(!item_wanttoremove)
+            return 0;
+        while(index--)
+        {
+            item_wanttoremove = item_wanttoremove->next;
+        }
+        if(!item_wanttoremove)
+            return 0;
+        //delete item_wanttoremove->next;
+        item_wanttoremove->next = item_wanttoremove->next->next;
+        return 0;
+    }
     int PutValueInKey(char *key,char *value)
     {
+        item *currite = _GetItemInKey(key);
+        if(!currite)
+            return 0;
+        currite-> value = value;
+        return 1;
+    }
+    int PutValueInIndex(char *value,int index)
+    {
         int i = 0;
-        item *currite = first;
-        while(!compare_strings(key,currite->key))
-            currite = currite->next;
-        if(currite)
-            currite-> value = value;
+        item *currite = _GetItemInIndex(index);
+        if(!currite)
+            return 0;
+        currite-> value = value;
         return 1;
     }
 };
