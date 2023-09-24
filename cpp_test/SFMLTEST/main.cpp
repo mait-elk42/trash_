@@ -10,7 +10,6 @@ int main()
 
     circle->setFillColor(sf::Color::Red);
     clrterm;
-    // sf::CircleShape ciiir = sf::CircleShape(10.0);
     while (window.isOpen())
     {
         //player->__ObjectIsColliRecord(ground);

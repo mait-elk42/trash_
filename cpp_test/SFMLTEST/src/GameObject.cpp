@@ -5,6 +5,7 @@ struct V2{
 };
 class GameObject{
 private:
+    float siiize = 0;
     sf::Vertex collider[8] =
     {
         sf::Vertex(sf::Vector2f(0, 0)),
@@ -25,6 +26,7 @@ public:
 
     GameObject(sf::Shape *shape,float x,float y,float movementspeed)
     {
+        siiize =  shape->getLocalBounds().height;
         collider[0].color = sf::Color::Green;
         collider[1].color = sf::Color::Green;
         collider[2].color = sf::Color::Green;
@@ -59,12 +61,12 @@ public:
     void printcollider(sf::RenderWindow& window)
     {
         collider[0].position = {getPosition().x, getPosition().y};
-        collider[1].position = {getPosition().x+20, getPosition().y};
-        collider[2].position = {getPosition().x+20, getPosition().y+20};
-        collider[3].position = {getPosition().x+20, getPosition().y};
-        collider[4].position = {getPosition().x+20, getPosition().y+20};
-        collider[5].position = {getPosition().x, getPosition().y+20};
-        collider[6].position = {getPosition().x, getPosition().y+20};
+        collider[1].position = {getPosition().x+siiize, getPosition().y};
+        collider[2].position = {getPosition().x+siiize, getPosition().y+siiize};
+        collider[3].position = {getPosition().x+siiize, getPosition().y};
+        collider[4].position = {getPosition().x+siiize, getPosition().y+siiize};
+        collider[5].position = {getPosition().x, getPosition().y+siiize};
+        collider[6].position = {getPosition().x, getPosition().y+siiize};
         collider[7].position = {getPosition().x, getPosition().y};
 
         window.draw(collider, 8, sf::Lines);
