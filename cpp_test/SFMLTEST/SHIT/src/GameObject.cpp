@@ -6,6 +6,7 @@ struct V2{
 class GameObject{
 private:
     float siiize = 0;
+    int collition;
     sf::Vertex collider[8] =
     {
         sf::Vertex(sf::Vector2f(0, 0)),
@@ -73,11 +74,27 @@ public:
     }
     void __ObjectIsColliRecord(GameObject *othergameobject)
     {
-        V2 pos1 = getPosition();
-        V2 pos2 = othergameobject->getPosition();
-        float size1 = shape->getLocalBounds().height;
-        float size2 = othergameobject->shape->getLocalBounds().height;
-        //if(pos1.x < pos2.x && )
+        V2 playerpos = getPosition();
+        V2 groundpos = othergameobject->getPosition();
+        float playersize = shape->getLocalBounds().height;
+        float groundsize = othergameobject->shape->getLocalBounds().height;
+        if((playerpos.x < groundpos.x + groundsize && playerpos.y < groundpos.x+groundsize && playerpos.x+playersize > groundpos.x && playerpos.y+playersize > groundpos.y))
+        {
+            collition = 1;
+        }else
+            collition = 0;
+    }
+    void __re(GameObject *othergameobject)
+    {
+        V2 playerpos = getPosition();
+        V2 groundpos = othergameobject->getPosition();
+        float playersize = shape->getLocalBounds().height;
+        float groundsize = othergameobject->shape->getLocalBounds().height;
+        if((playerpos.x < groundpos.x + groundsize && playerpos.y < groundpos.x+groundsize && playerpos.x+playersize > groundpos.x && playerpos.y+playersize > groundpos.y))
+        {
+            collition = 1;
+        }else
+            collition = 0;
     }
     void keypressed(sf::Event::KeyEvent keyclicked)
     {
@@ -120,7 +137,8 @@ public:
         
         // if(x < 0 && !collition_left)
             //position->x += x * speed;
-        position->x += x * speed;
+        if(!collition)
+            position->x += x * speed;
         position->y += y * speed;
         shape->setPosition(position->x,position->y);
     }

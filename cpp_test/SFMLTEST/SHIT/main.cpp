@@ -35,15 +35,33 @@ int main()
         V2 groundpos = ground->getPosition();
         float playersize = player->getobj()->getLocalBounds().height;
         float groundsize = ground->getobj()->getLocalBounds().height;
-        if((playerpos.x < groundpos.x + groundsize && playerpos.y < groundpos.x+groundsize && playerpos.x+playersize > groundpos.x && playerpos.y+playersize > groundpos.y))
-        {
-            prt("collition");
-        }
-        else
-        {
-            prt("no collition");
-        }
-        //player->__ObjectIsColliRecord(ground);
+        //if((playerpos.x < groundpos.x + groundsize && playerpos.y < groundpos.x+groundsize && playerpos.x+playersize > groundpos.x && playerpos.y+playersize > groundpos.y))
+        //  if((playerpos.x + playersize > groundpos.x))
+        // {
+        //     if(playerpos.y < groundpos.y + groundsize)
+        //         if(playerpos.y+playersize > groundpos.y)
+        //             prt("coll right");
+        //         else
+        //         prt("else?");
+        //     else
+        //         prt("else?");
+        //     //std::cout << " player : "<<  playerpos.y + playersize <<  " ground : " <<  (playerpos.y < groundpos.y + groundsize && playerpos.y+playersize > groundpos.y) << std::endl;
+        // }
+        // else
+        // {
+        //     prt("no collition");
+        // }
+        // if(playerpos.y < groundpos.y + groundsize)
+        // {
+        //         prt("11");
+        // }else
+        // if(playerpos.y+playersize > groundpos.y)
+        // {
+        //         prt("22");
+        // }else{
+        //     prt("noo");
+        // }
+        player->__ObjectIsColliRecord(ground);
         if(player->down)
             player->move(0,1);
         if(player->up)
