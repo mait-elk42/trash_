@@ -58,7 +58,7 @@ public:
     // {
     //     return collited;
     // }
-    void printcollider(sf::RenderWindow& window)
+    void printcollider(sf::RenderWindow& window,int visible = 0)
     {
         collider[0].position = {getPosition().x, getPosition().y};
         collider[1].position = {getPosition().x+siiize, getPosition().y};
@@ -68,27 +68,16 @@ public:
         collider[5].position = {getPosition().x, getPosition().y+siiize};
         collider[6].position = {getPosition().x, getPosition().y+siiize};
         collider[7].position = {getPosition().x, getPosition().y};
-
-        window.draw(collider, 8, sf::Lines);
+        if(visible)
+            window.draw(collider, 8, sf::Lines);
     }
     void __ObjectIsColliRecord(GameObject *othergameobject)
     {
-        // if(getPosition().y+20 < othergameobject->getPosition().y)
-        //     collition_down = 1;
-        // else
-        //     collition_down = 0;
-        // if(getPosition().y > othergameobject->getPosition().y+50) 
-        //     collition_up = 1;
-        // else
-        //     collition_up = 0;
-        if(getPosition().x+20 < othergameobject->getPosition().x)
-            collition_right = 1;
-        else
-            collition_left = 0;
-        if(getPosition().x > othergameobject->getPosition().x+50)
-            collition_left = 1;
-        else
-            collition_right = 0;
+        V2 pos1 = getPosition();
+        V2 pos2 = othergameobject->getPosition();
+        float size1 = shape->getLocalBounds().height;
+        float size2 = othergameobject->shape->getLocalBounds().height;
+        //if(pos1.x < pos2.x && )
     }
     void keypressed(sf::Event::KeyEvent keyclicked)
     {

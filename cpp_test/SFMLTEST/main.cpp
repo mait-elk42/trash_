@@ -30,11 +30,24 @@ int main()
         // prt(ground->getobj()->getPosition().x);
         //graviiity
             //player->move(0,0.2f);
-
+        
+        V2 playerpos = player->getPosition();
+        V2 groundpos = ground->getPosition();
+        float playersize = player->getobj()->getLocalBounds().height;
+        float groundsize = ground->getobj()->getLocalBounds().height;
+        if((playerpos.x < groundpos.x + groundsize && playerpos.y < groundpos.x+groundsize && playerpos.x+playersize > groundpos.x && playerpos.y+playersize > groundpos.y))
+        {
+            prt("collition");
+        }
+        else
+        {
+            prt("no collition");
+        }
+        //player->__ObjectIsColliRecord(ground);
         if(player->down)
             player->move(0,1);
         if(player->up)
-            player->move(0,-1);                
+            player->move(0,-1);
         if(player->left)
             player->move(-1,0);
         if(player->right)
@@ -44,8 +57,8 @@ int main()
         window.draw(*(player->getobj()));
 
         
-        player->printcollider(window);
-        ground->printcollider(window);
+        player->printcollider(window,1);
+        ground->printcollider(window,1);
         window.display();
     }
 
