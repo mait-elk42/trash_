@@ -12,11 +12,10 @@ typedef struct _vctr2 {
     float x;
     float y;
 }Vector2;
-int checkcollition(Vector2 pos1, Vector2 pos2,float size1, float size2)
+template <typename T,typename T2>
+int checkcollition(T *obj1,T2 *obj2)
 {
-     if((pos1.x < pos2.x + size2 && pos1.y < pos2.x+size2 && pos1.x+size1 > pos2.x && pos1.y+size1 > pos2.y))
-            return 1;
-    return 0;
+    return  obj1->getGlobalBounds().intersects(obj2->getGlobalBounds());
 }
 int main()
 {
@@ -27,7 +26,7 @@ int main()
     player->setFillColor(sf::Color::Green);
     window.setIcon(10,10,new sf::Uint8());
     player->setPosition(window.getSize().x / 2 ,window.getSize().y / 2);
-    square->setPosition(100,100);
+    square->setPosition(200,100);
     while (window.isOpen())
     {
         sf::Event event;
@@ -62,9 +61,14 @@ int main()
                     
                 }
         }
-        int cd = checkcollition({player->getPosition().x+ plrmoves.right + plrmoves.left, player->getPosition().y+ plrmoves.up + plrmoves.down},{square->getPosition().x, square->getPosition().y},player->getLocalBounds().height,square->getLocalBounds().height);
-        //if(!cd)
-            //player->setPosition(player->getPosition().x,player->getPosition().y + 0.2f);
+        Vector2 originpos = {player->getPosition().x, player->getPosition().y};
+        Vector2 newpos = {player->getPosition().x + plrmoves.right + plrmoves.left, player->getPosition().y + plrmoves.up + plrmoves.down};
+
+        // you stopped here
+        player->setPosition({newpos.x,newpos.y});
+        int cd  = checkcollition(player,square);
+        if(cd)
+            player->setPosition({originpos.x,originpos.y});
         if(!cd)
             player->setPosition(player->getPosition().x + plrmoves.right + plrmoves.left, player->getPosition().y + plrmoves.up + plrmoves.down);
         window.clear();
