@@ -1,9 +1,10 @@
+mainname = test
 all: compile link goo
 
 compile :
-	g++ -c main.cpp
+	g++ -I. -c $(mainname).cpp
 link:
-	g++ main.o -o game -lsfml-graphics -lsfml-window -lsfml-system
+	g++ $(mainname).o -o game -lsfml-graphics -lsfml-window -lsfml-system
 goo:
+	rm $(mainname).o
 	./game
-	rm main.o
