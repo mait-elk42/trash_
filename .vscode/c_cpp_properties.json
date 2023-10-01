@@ -5,7 +5,7 @@
             "includePath": [
                 "C:/MinGW/**",
                 "C:/SFML/include/*",
-                "M:/Desktop/1337_projs/cpp_test/SFMLTEST/*"
+                "M:/Desktop/1337_projs/**"
             ],
             "defines": [
                 "_DEBUG",
