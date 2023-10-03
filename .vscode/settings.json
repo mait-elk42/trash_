@@ -80,6 +80,8 @@
         "mlx.h": "c",
         "unistd.h": "c",
         "stdlib.h": "c",
-        "fcntl.h": "c"
+        "fcntl.h": "c",
+        "stdarg.h": "c",
+        "fuckingsource": "cpp"
     }
 }
