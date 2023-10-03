@@ -119,6 +119,5 @@ int main()
 {
     char* nb = "hello";
     nsx_ppnl(&nb);
-    nsx_p("my prt %: \n\t%p",&nb);
-    printf("\norigin prt %%: \n\t%p",&nb);
+    nsx_p("MY NAME : %s, MY AGE! :%d MY GENDER : %c",&nb);
 }
